@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vikas Bishnoi — iOS Developer & Software Engineer</title>
+  <meta name="description" content="Vikas Bishnoi — iOS Developer & Full Stack Engineer with 3+ years of experience in Swift, SwiftUI, React, Django, and AI integrations. Based in Hisar, India. Open to Remote." />
+  <meta name="keywords" content="iOS Developer, Swift, SwiftUI, React, Django, AI, Full Stack Engineer, Vikas Bishnoi" />
+  <meta name="author" content="Vikas Bishnoi" />
+  <meta property="og:title" content="Vikas Bishnoi — iOS Developer & Software Engineer" />
+  <meta property="og:description" content="3+ Years building premium iOS apps and AI-powered platforms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <style>
+    /* ─── CSS RESET & TOKENS ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:         #0a0a0f;
+      --bg2:        #0f0f1a;
+      --bg3:        #13131f;
+      --blue:       #00d4ff;
+      --purple:     #7c3aed;
+      --pink:       #ec4899;
+      --green:      #10b981;
+      --text:       #e2e8f0;
+      --text-muted: #94a3b8;
+      --glass:      rgba(255,255,255,0.04);
+      --glass-b:    rgba(255,255,255,0.08);
+      --border:     rgba(0,212,255,0.12);
+      --glow-blue:  0 0 20px rgba(0,212,255,0.4);
+      --glow-purple:0 0 20px rgba(124,58,237,0.4);
+      --radius:     16px;
+      --font:       'Inter', sans-serif;
+      --font-mono:  'JetBrains Mono', monospace;
+      --font-head:  'Space Grotesk', sans-serif;
+    }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    ::selection { background: rgba(0,212,255,0.3); color: #fff; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 4px; }
+
+    /* ─── CUSTOM CURSOR ─── */
+    #cursor {
+      position: fixed; top: 0; left: 0; z-index: 10000;
+      pointer-events: none; mix-blend-mode: difference;
+    }
+    #cursor-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 12px var(--blue), 0 0 24px var(--blue);
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(0,212,255,0.5);
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+    body.hovering #cursor-dot { width: 14px; height: 14px; background: var(--purple); box-shadow: 0 0 20px var(--purple); }
+    body.hovering #cursor-ring { width: 56px; height: 56px; border-color: var(--purple); background: rgba(124,58,237,0.06); }
+
+    /* ─── PRELOADER ─── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9998;
+      background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    #preloader.hide { opacity: 0; pointer-events: none; transform: scale(1.05); }
+    .preloader-logo {
+      font-family: var(--font-head);
+      font-size: 3rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+      margin-bottom: 2rem;
+    }
+    .preloader-logo span {
+      display: inline-block;
+      animation: logoLetterIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes logoLetterIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.7); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .preloader-bar {
+      width: 200px; height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px; overflow: hidden;
+    }
+    .preloader-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      border-radius: 2px;
+      animation: fillBar 1.8s ease forwards;
+    }
+    @keyframes fillBar {
+      0%   { width: 0%; }
+      60%  { width: 70%; }
+      90%  { width: 90%; }
+      100% { width: 100%; }
+    }
+    .preloader-text {
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      padding: 0 5%;
+      height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10,10,15,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    nav.scrolled { background: rgba(10,10,15,0.95); box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.35rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px;
+      background: var(--blue);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--blue);
+      color: var(--blue) !important;
+      font-weight: 600;
+      transition: background 0.3s, box-shadow 0.3s !important;
+    }
+    .nav-cta:hover { background: rgba(0,212,255,0.1) !important; box-shadow: var(--glow-blue); }
+    .nav-cta::after { display: none !important; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      padding: 5px; background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; top: 70px; left: 0; right: 0;
+      background: rgba(10,10,15,0.98); backdrop-filter: blur(20px);
+      padding: 2rem 5%; border-bottom: 1px solid var(--border);
+      flex-direction: column; gap: 1.5rem;
+      z-index: 899;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1.1rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+    .mobile-menu a:hover { color: var(--blue); }
+
+    /* ─── SECTION COMMON ─── */
+    section { position: relative; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-tag::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--blue);
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: 70px;
+      overflow: hidden;
+      position: relative;
+    }
+    #particles-js {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 5% 0 max(5%, calc((100vw - 1200px) / 2));
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      border: 1px solid rgba(16,185,129,0.3);
+      background: rgba(16,185,129,0.08);
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--green);
+      margin-bottom: 1.5rem;
+      animation: badgePulse 2.5s infinite;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: dotPulse 2.5s infinite;
+    }
+    @keyframes badgePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.0); }
+      50%      { box-shadow: 0 0 0 6px rgba(16,185,129,0.1); }
+    }
+    @keyframes dotPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.0); }
+      50%      { box-shadow: 0 0 0 4px rgba(16,185,129,0.3); }
+    }
+    .hero-name {
+      font-family: var(--font-head);
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      font-weight: 700; line-height: 1.05;
+      margin-bottom: 0.5rem;
+    }
+    .hero-role {
+      font-family: var(--font-mono);
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--blue);
+      min-height: 2.2em;
+      margin-bottom: 1.5rem;
+    }
+    .typed-cursor { color: var(--blue); }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff; font-weight: 600; font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 8px 32px rgba(0,212,255,0.25);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border: none; cursor: none;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,212,255,0.4); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      color: var(--text); font-weight: 600; font-size: 0.95rem;
+      transition: border-color 0.25s, background 0.25s, transform 0.25s;
+      cursor: none;
+    }
+    .btn-secondary:hover { border-color: var(--blue); background: rgba(0,212,255,0.06); transform: translateY(-3px); }
+
+    /* iPhone 3D mockup */
+    .hero-visual {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      height: 600px;
+    }
+    .iphone-scene {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      animation: floatY 6s ease-in-out infinite;
+    }
+    @keyframes floatY {
+      0%,100% { transform: translateY(0) rotateY(0deg); }
+      33%     { transform: translateY(-20px) rotateY(8deg); }
+      66%     { transform: translateY(-10px) rotateY(-4deg); }
+    }
+    .iphone-wrap {
+      position: relative;
+      width: 240px; height: 490px;
+      perspective: 1000px;
+    }
+    .iphone-body {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-radius: 44px;
+      border: 2px solid rgba(255,255,255,0.12);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 40px 80px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        0 0 60px rgba(0,212,255,0.15);
+      position: relative; overflow: hidden;
+      transform-style: preserve-3d;
+    }
+    .iphone-screen {
+      position: absolute;
+      top: 14px; left: 10px; right: 10px; bottom: 14px;
+      background: var(--bg);
+      border-radius: 36px; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .iphone-statusbar {
+      height: 40px;
+      background: rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .iphone-notch {
+      width: 110px; height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+    }
+    .iphone-app {
+      flex: 1; overflow: hidden;
+      background: linear-gradient(180deg, #0f0f1a 0%, #13131f 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .app-icon {
+      width: 60px; height: 60px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin-bottom: 0.75rem;
+      box-shadow: 0 8px 24px rgba(0,212,255,0.35);
+    }
+    .app-title { font-size: 0.75rem; font-weight: 600; color: var(--text); text-align: center; }
+    .app-sub { font-size: 0.6rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .app-chart {
+      width: 100%; height: 70px;
+      margin-top: 1rem;
+      background: rgba(0,212,255,0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(0,212,255,0.1);
+      position: relative; overflow: hidden;
+    }
+    .app-chart-line {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 100%;
+    }
+    .app-stats { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem; }
+    .app-stat-card {
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);
+      padding: 0.5rem;
+      display: flex; flex-direction: column;
+    }
+    .app-stat-val { font-size: 0.85rem; font-weight: 700; color: var(--blue); }
+    .app-stat-key { font-size: 0.5rem; color: var(--text-muted); margin-top: 2px; }
+    .iphone-home-bar {
+      height: 22px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .iphone-home-bar span {
+      width: 100px; height: 4px; border-radius: 4px;
+      background: rgba(255,255,255,0.2);
+    }
+    /* floating code snippets */
+    .code-particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+    .code-particle {
+      position: absolute;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: rgba(0,212,255,0.25);
+      white-space: nowrap;
+      animation: driftCode linear infinite;
+    }
+    @keyframes driftCode {
+      from { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      to   { transform: translateY(-200px) translateX(80px) rotate(10deg); opacity: 0; }
+    }
+    /* hero glow orbs */
+    .hero-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none; z-index: 1;
+    }
+    .orb1 { width: 400px; height: 400px; background: rgba(0,212,255,0.08); top: -10%; right: 5%; }
+    .orb2 { width: 350px; height: 350px; background: rgba(124,58,237,0.08); bottom: 0%; right: 20%; }
+
+    /* ─── ABOUT ─── */
+    #about { padding: 120px 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+    .stat-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.05) 0%, transparent 100%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .stat-card:hover { border-color: var(--blue); transform: translateY(-4px); }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+    /* skill globe */
+    #globe-canvas {
+      width: 100%; max-width: 420px; height: 420px;
+      margin: 0 auto;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { padding: 120px 0; }
+    .timeline {
+      position: relative;
+      max-width: 780px; margin: 0 auto;
+      padding: 0 0 0 60px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 18px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--blue), var(--purple), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+    .timeline-node {
+      position: absolute;
+      left: -54px; top: 20px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--blue);
+      box-shadow: 0 0 0 4px rgba(0,212,255,0.12), var(--glow-blue);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .timeline-item:hover .timeline-node {
+      transform: scale(1.4);
+      box-shadow: 0 0 0 8px rgba(0,212,255,0.15), 0 0 30px rgba(0,212,255,0.6);
+    }
+    .timeline-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .timeline-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--blue), var(--purple));
+      border-radius: 3px 0 0 3px;
+    }
+    .timeline-card:hover { border-color: rgba(0,212,255,0.3); transform: translateX(4px); box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+    .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; }
+    .timeline-role { font-family: var(--font-head); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .timeline-company { font-size: 0.95rem; color: var(--blue); font-weight: 500; }
+    .timeline-date {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.05);
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      white-space: nowrap;
+    }
+    .timeline-achievements {
+      margin-top: 1rem;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .timeline-achievements.open { max-height: 400px; }
+    .timeline-achievements ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+    .timeline-achievements li {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.88rem; line-height: 1.6; color: var(--text-muted);
+    }
+    .timeline-achievements li::before { content: '▸'; color: var(--blue); flex-shrink: 0; margin-top: 2px; }
+    .expand-icon { transition: transform 0.3s; color: var(--text-muted); font-size: 0.85rem; }
+    .timeline-card.open .expand-icon { transform: rotate(180deg); }
+
+    /* ─── PROJECTS ─── */
+    #projects { padding: 120px 0; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .proj-card {
+      height: 400px;
+      perspective: 1000px;
+      cursor: none;
+    }
+    .proj-card-inner {
+      position: relative; width: 100%; height: 100%;
+      transition: transform 0.7s cubic-bezier(0.23,1,0.32,1);
+      transform-style: preserve-3d;
+    }
+    .proj-card:hover .proj-card-inner { transform: rotateY(180deg); }
+    .proj-front, .proj-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+    }
+    .proj-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(124,58,237,0.06) 100%);
+      border-color: rgba(124,58,237,0.3);
+      justify-content: space-between;
+    }
+    .proj-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .proj-cat {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--blue); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .proj-title { font-family: var(--font-head); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .proj-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; padding-top: 1rem; }
+    .proj-tag {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      color: var(--blue);
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.15);
+      padding: 0.2rem 0.55rem; border-radius: 6px;
+    }
+    .proj-back-title { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--blue); margin-bottom: 0.75rem; }
+    .proj-back-stats { display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+    .proj-back-stat { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: var(--text-muted); }
+    .proj-back-stat .icon { font-size: 1rem; }
+    .proj-back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff; font-size: 0.85rem; font-weight: 600;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .proj-back-link:hover { opacity: 0.9; transform: translateY(-2px); }
+    .proj-flip-hint {
+      font-size: 0.7rem; color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 1rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .proj-group-title {
+      font-family: var(--font-head);
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--text);
+      margin: 4rem 0 2rem 0;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .proj-group-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    /* ─── PROJECT MODAL ─── */
+    #proj-modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      display: none; align-items: center; justify-content: center;
+      padding: 2rem;
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    #proj-modal-overlay.open { display: flex; opacity: 1; }
+    .modal-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      max-width: 900px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      position: relative;
+      transform: scale(0.9); opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+    }
+    #proj-modal-overlay.open .modal-container { transform: scale(1); opacity: 1; }
+    .modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--glass); border: 1px solid var(--border);
+      color: var(--text); font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.3s, transform 0.3s;
+      z-index: 10;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+    .modal-hero {
+      padding: 4rem 3rem 2rem 3rem;
+      background: linear-gradient(180deg, rgba(0,212,255,0.05) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-badge {
+      display: inline-block; padding: 0.3rem 0.8rem;
+      border-radius: 6px; background: rgba(0,212,255,0.1);
+      color: var(--blue); font-family: var(--font-mono);
+      font-size: 0.75rem; margin-bottom: 1rem;
+    }
+    .modal-title { font-family: var(--font-head); font-size: 2.5rem; margin-bottom: 1rem; }
+    .modal-content { padding: 3rem; display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; }
+    .modal-section-title {
+      font-family: var(--font-head); font-size: 1.1rem; font-weight: 600;
+      margin-bottom: 1.25rem; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .modal-desc { line-height: 1.8; color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2rem; }
+    .modal-metrics { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .modal-metric-card {
+      padding: 1.25rem; border-radius: 12px;
+      background: var(--glass); border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .modal-metric-icon { font-size: 1.5rem; width: 40px; text-align: center; }
+    .modal-metric-val { font-weight: 600; color: var(--text); }
+    .modal-tech-list { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .modal-tech-tag {
+      padding: 0.4rem 0.8rem; border-radius: 8px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .modal-content { grid-template-columns: 1fr; gap: 2rem; padding: 2rem; }
+      .modal-hero { padding: 3rem 2rem 1.5rem 2rem; }
+      .modal-title { font-size: 1.8rem; }
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { padding: 120px 0; }
+    .skills-categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .skill-cat-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s;
+    }
+    .skill-cat-card:hover { border-color: rgba(0,212,255,0.3); }
+    .skill-cat-title {
+      font-family: var(--font-head);
+      font-size: 1rem; font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      color: var(--text);
+    }
+    .skill-cat-icon { font-size: 1.3rem; }
+    .skill-item { margin-bottom: 1.2rem; }
+    .skill-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+    .skill-name { font-size: 0.875rem; font-weight: 500; color: var(--text); }
+    .skill-pct { font-family: var(--font-mono); font-size: 0.75rem; color: var(--blue); }
+    .skill-bar-track {
+      height: 6px; border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; border-radius: 6px;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      width: 0%; transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+    }
+    /* floating icons */
+    .skill-icons-row {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      margin-top: 2.5rem; justify-content: center;
+    }
+    .skill-icon-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      font-size: 0.82rem; font-weight: 500;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .skill-icon-pill:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,212,255,0.2); }
+    .skill-icon-pill .si { font-size: 1.1rem; }
+
+    /* ─── CONTACT ─── */
+    #contact { padding: 120px 0; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-link-card {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .contact-link-card:hover { border-color: var(--blue); transform: translateX(6px); box-shadow: var(--glow-blue); }
+    .contact-link-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .contact-link-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .contact-link-val { font-size: 0.9rem; font-weight: 500; }
+    .contact-form {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+      display: block;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--text-muted); margin-bottom: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      resize: none;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+    .form-textarea { min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-submit {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff; font-weight: 600; font-size: 0.95rem;
+      cursor: none; transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+      letter-spacing: 0.03em;
+      box-shadow: 0 8px 32px rgba(0,212,255,0.2);
+    }
+    .btn-submit:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 16px 48px rgba(0,212,255,0.35); }
+    .form-success {
+      display: none; text-align: center; padding: 1rem;
+      color: var(--green); font-size: 0.9rem; font-weight: 500;
+      border-radius: 10px; background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      margin-top: 1rem;
+    }
+
+    /* particles-contact bg */
+    #particles-contact { position: absolute; inset: 0; z-index: 0; opacity: 0.6; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 3rem 5%;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--font-head); font-size: 1.2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.82rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--blue); }
+    .footer-copy { font-size: 0.78rem; color: rgba(148,163,184,0.5); }
+
+    /* ─── SCROLL REVEAL (initial state) ─── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ─── GLOW DIVIDER ─── */
+    .glow-divider {
+      height: 1px; margin: 0 5%;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--purple), transparent);
+      opacity: 0.3;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      #globe-canvas { max-width: 320px; height: 320px; }
+    }
+    @media (max-width: 768px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-content { padding: 0 5%; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-categories { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .proj-card { height: 340px; }
+      body { cursor: auto; }
+      #cursor, #cursor-ring { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── PRELOADER ─── -->
+<div id="preloader">
+  <div class="preloader-logo">
+    <span style="animation-delay:0s">V</span><span style="animation-delay:0.05s">i</span><span style="animation-delay:0.1s">k</span><span style="animation-delay:0.15s">a</span><span style="animation-delay:0.2s">s</span><span style="animation-delay:0.3s">&nbsp;</span><span style="animation-delay:0.35s">B</span><span style="animation-delay:0.4s">i</span><span style="animation-delay:0.45s">s</span><span style="animation-delay:0.5s">h</span><span style="animation-delay:0.55s">n</span><span style="animation-delay:0.6s">o</span><span style="animation-delay:0.65s">i</span>
+  </div>
+  <div class="preloader-bar"><div class="preloader-fill"></div></div>
+  <div class="preloader-text">Initialising...</div>
+</div>
+
+<!-- ─── CUSTOM CURSOR ─── -->
+<div id="cursor"><div id="cursor-dot"></div></div>
+<div id="cursor-ring"></div>
+
+<!-- ─── NAV ─── -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">VB</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#contact" onclick="closeMobile()">Hire Me</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div id="particles-js"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+
+  <!-- floating code snippets -->
+  <div class="code-particles" id="code-particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Available for hire — Open to Remote
+    </div>
+    <h1 class="hero-name">
+      <span class="gradient-text">Vikas</span><br>Bishnoi
+    </h1>
+    <div class="hero-role">
+      <span id="typed-role"></span>
+    </div>
+    <p class="hero-desc">
+      iOS Developer &amp; Full Stack Engineer crafting pixel-perfect apps and AI-powered platforms. 3+ years building products used by thousands of users worldwide.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary" id="btn-view-projects">
+        View Projects <span>→</span>
+      </a>
+      <a href="mailto:vikasbishnoi82289@gmail.com" class="btn-secondary" id="btn-download-resume">
+        ✉ Contact Me
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="iphone-scene">
+      <div class="iphone-wrap">
+        <div class="iphone-body">
+          <div class="iphone-screen">
+            <div class="iphone-statusbar"><div class="iphone-notch"></div></div>
+            <div class="iphone-app">
+              <div class="app-icon">📱</div>
+              <div class="app-title">CruiseFinder</div>
+              <div class="app-sub">by iCruise</div>
+              <div class="app-chart">
+                <svg class="app-chart-line" viewBox="0 0 200 70" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,55 C20,50 40,35 60,30 S100,20 120,25 S160,15 200,10 L200,70 L0,70 Z" fill="url(#cg)"/>
+                  <path d="M0,55 C20,50 40,35 60,30 S100,20 120,25 S160,15 200,10" fill="none" stroke="#00d4ff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="app-stats">
+                <div class="app-stat-card"><div class="app-stat-val">4.9★</div><div class="app-stat-key">Rating</div></div>
+                <div class="app-stat-card"><div class="app-stat-val">+25%</div><div class="app-stat-key">Engagement</div></div>
+              </div>
+            </div>
+            <div class="iphone-home-bar"><span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="reveal-left">
+        <p class="section-tag">About Me</p>
+        <h2 class="section-title">Building Tomorrow's<br><span class="gradient-text">Apps Today</span></h2>
+        <p class="section-sub">
+          I'm a passionate iOS Developer &amp; Full Stack Engineer based in Hisar, India. I specialise in crafting high-performance mobile apps with Swift &amp; SwiftUI, and scalable web platforms with React and Django — all with AI integrations that move the needle.
+        </p>
+        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.75;">
+          I've shipped apps at <strong style="color:var(--text);">LeewayHertz</strong> — a global AI company — and built consumer apps loved by thousands. When I'm not writing Swift, I'm integrating OpenAI APIs, optimising PostgreSQL queries, or exploring the latest in generative AI.
+        </p>
+        <div class="about-stats">
+          <div class="stat-card reveal">
+            <div class="stat-num" data-target="3">0</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-card reveal" style="transition-delay:0.1s">
+            <div class="stat-num" data-target="99.8" data-suffix="%">0</div>
+            <div class="stat-label">Crash-Free Rate</div>
+          </div>
+          <div class="stat-card reveal" style="transition-delay:0.2s">
+            <div class="stat-num" data-target="1000" data-suffix="+">0</div>
+            <div class="stat-label">App Downloads</div>
+          </div>
+          <div class="stat-card reveal" style="transition-delay:0.3s">
+            <div class="stat-num" data-target="4.7" data-suffix="★">0</div>
+            <div class="stat-label">App Store Rating</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <canvas id="globe-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ─── EXPERIENCE ─── -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-tag reveal">Experience</p>
+    <h2 class="section-title reveal">Career <span class="gradient-text">Timeline</span></h2>
+    <p class="section-sub reveal">The journey that shaped my engineering mindset — click any card to expand.</p>
+    <div class="timeline reveal">
+
+      <!-- Job 1 -->
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-card" onclick="toggleTimeline(this)">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-role">iOS Developer &amp; Full Stack Engineer</div>
+              <div class="timeline-company">LeewayHertz</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem">
+              <span class="timeline-date">Oct 2023 – Present</span>
+              <span class="expand-icon">▾</span>
+            </div>
+          </div>
+          <div class="timeline-achievements">
+            <ul>
+              <li>Led development of <strong>Cruise Finder by iCruise</strong> — an AI-powered iOS travel platform resulting in 25% user engagement increase.</li>
+              <li>Built <strong>AI XPLR™</strong> enterprise platform using React.js, Django, and OpenAI API — deployed globally to enterprise clients across multiple verticals.</li>
+              <li>Integrated ZBrain AI for intelligent search and recommendation, reducing user drop-off by 18%.</li>
+              <li>Maintained 99.8% crash-free rate across production iOS builds with comprehensive XCTest suites.</li>
+              <li>Architected PostgreSQL database schemas optimised for 100K+ concurrent users.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:var(--purple);box-shadow:0 0 0 4px rgba(124,58,237,0.12),var(--glow-purple)"></div>
+        <div class="timeline-card" onclick="toggleTimeline(this)">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-role">iOS &amp; Flutter Developer</div>
+              <div class="timeline-company">AppRipe Technology</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem">
+              <span class="timeline-date">Jan 2023 – Sep 2023</span>
+              <span class="expand-icon">▾</span>
+            </div>
+          </div>
+          <div class="timeline-achievements">
+            <ul>
+              <li>Developed and shipped multiple iOS apps using <strong>Swift &amp; UIKit</strong> with a focus on clean architecture (MVVM).</li>
+              <li>Built cross-platform features using <strong>Flutter</strong>, dramatically reducing time-to-market for Android feature parity.</li>
+              <li>Integrated REST APIs, real-time Firebase features, and third-party SDKs across multiple production projects.</li>
+              <li>Collaborated directly with design and product teams to translate Figma mockups into pixel-perfect, animated interfaces.</li>
+              <li>Participated in code reviews, establishing best practices for Swift memory management and performance.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-tag reveal">Projects</p>
+    <h2 class="section-title reveal">Featured <span class="gradient-text">Work</span></h2>
+    <p class="section-sub reveal">Hover over a card for tech details, or click for full project insights and metrics.</p>
+
+    <!-- Professional Projects -->
+    <div class="proj-group-title reveal">Professional Projects</div>
+    <div class="projects-grid">
+      <!-- Project 1 -->
+      <div class="proj-card" onclick="openModal('cruise-finder')">
+        <div class="proj-card-inner">
+          <div class="proj-front">
+            <div class="proj-icon" style="background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,212,255,0.05));border:1px solid rgba(0,212,255,0.2)">⛴</div>
+            <div class="proj-cat">iOS · Travel · AI</div>
+            <div class="proj-title">Cruise Finder by iCruise</div>
+            <div class="proj-desc">Feature-rich iOS travel platform for cruise discovery and booking. Optimised SwiftUI components with smooth nav flows.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">SwiftUI</span>
+              <span class="proj-tag">ZBrain AI</span>
+              <span class="proj-tag">Firebase</span>
+            </div>
+            <div class="proj-flip-hint">↻ Hover for tech · Click for logic</div>
+          </div>
+          <div class="proj-back">
+            <div>
+              <div class="proj-back-title">⛴ Tech Stack</div>
+              <div class="proj-back-stats">
+                <div class="proj-back-stat"><span class="icon">🏗</span> MVVM Architecture</div>
+                <div class="proj-back-stat"><span class="icon">🚀</span> Fastlane Automation</div>
+                <div class="proj-back-stat"><span class="icon">🤖</span> ZBrain AI Integration</div>
+                <div class="proj-back-stat"><span class="icon">🔧</span> Swift & UIKit</div>
+                <div class="proj-back-stat"><span class="icon">🔥</span> Firebase Backend</div>
+              </div>
+            </div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">SwiftUI</span>
+              <span class="proj-tag">UIKit</span>
+              <span class="proj-tag">MVVM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="proj-card" style="transition-delay:0.1s" onclick="openModal('ai-xplr')">
+        <div class="proj-card-inner">
+          <div class="proj-front">
+            <div class="proj-icon" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));border:1px solid rgba(124,58,237,0.2)">🤖</div>
+            <div class="proj-cat">Full Stack · Enterprise · AI</div>
+            <div class="proj-title">AI XPLR™</div>
+            <div class="proj-desc">Enterprise AI discovery platform deployed in global transformation programs. Built end-to-end: React, Django, and AI pipelines.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">React.js</span>
+              <span class="proj-tag">Django</span>
+              <span class="proj-tag">PostgreSQL</span>
+              <span class="proj-tag">OpenAI API</span>
+            </div>
+            <div class="proj-flip-hint">↻ Hover for tech · Click for logic</div>
+          </div>
+          <div class="proj-back">
+            <div>
+              <div class="proj-back-title">🤖 Tech Stack</div>
+              <div class="proj-back-stats">
+                <div class="proj-back-stat"><span class="icon">⚛️</span> React.js Frontend</div>
+                <div class="proj-back-stat"><span class="icon">🐍</span> Django / Python Backend</div>
+                <div class="proj-back-stat"><span class="icon">🧠</span> OpenAI Agent Pipelines</div>
+                <div class="proj-back-stat"><span class="icon">🐘</span> PostgreSQL DB</div>
+                <div class="proj-back-stat"><span class="icon">⚡</span> ZBrain AI</div>
+              </div>
+            </div>
+            <div class="proj-tags">
+              <span class="proj-tag">React.js</span>
+              <span class="proj-tag">Django</span>
+              <span class="proj-tag">PostgreSQL</span>
+              <span class="proj-tag">OpenAI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="proj-card" style="transition-delay:0.2s" onclick="openModal('math-quiz')">
+        <div class="proj-card-inner">
+          <div class="proj-front">
+            <div class="proj-icon" style="background:linear-gradient(135deg,rgba(236,72,153,0.15),rgba(236,72,153,0.05));border:1px solid rgba(236,72,153,0.2)">🎮</div>
+            <div class="proj-cat">iOS · EdTech · AI</div>
+            <div class="proj-title">Math Quiz Game</div>
+            <div class="proj-desc">AI-powered educational iOS app making math fun through gamification and ChatGPT integration.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">UIKit</span>
+              <span class="proj-tag">ChatGPT API</span>
+              <span class="proj-tag">Core Data</span>
+            </div>
+            <div class="proj-flip-hint">↻ Hover for tech · Click for logic</div>
+          </div>
+          <div class="proj-back">
+            <div>
+              <div class="proj-back-title">🎮 Tech Stack</div>
+              <div class="proj-back-stats">
+                <div class="proj-back-stat"><span class="icon">🍎</span> Native iOS Swift</div>
+                <div class="proj-back-stat"><span class="icon">📱</span> UIKit Interface</div>
+                <div class="proj-back-stat"><span class="icon">🧠</span> ChatGPT 3.5 API</div>
+                <div class="proj-back-stat"><span class="icon">🧪</span> XCTest Coverage</div>
+                <div class="proj-back-stat"><span class="icon">💾</span> Core Data Storage</div>
+              </div>
+            </div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">UIKit</span>
+              <span class="proj-tag">ChatGPT</span>
+              <span class="proj-tag">XCTest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal Projects -->
+    <div class="proj-group-title reveal">Personal Projects</div>
+    <div class="projects-grid">
+      <!-- Project 4 -->
+      <div class="proj-card" onclick="openModal('smart-expense')">
+        <div class="proj-card-inner">
+          <div class="proj-front">
+            <div class="proj-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.2)">💰</div>
+            <div class="proj-cat">Android · Kotlin · Finance</div>
+            <div class="proj-title">Smart Expense Tracker</div>
+            <div class="proj-desc">Smart Android app with quick logging, recent feed, and analytics dashboard with category-wise spending charts.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">Kotlin</span>
+              <span class="proj-tag">Compose</span>
+              <span class="proj-tag">Room DB</span>
+              <span class="proj-tag">MVVM</span>
+            </div>
+            <div class="proj-flip-hint">↻ Hover for tech · Click for logic</div>
+          </div>
+          <div class="proj-back">
+            <div>
+              <div class="proj-back-title">💰 Tech Stack</div>
+              <div class="proj-back-stats">
+                <div class="proj-back-stat"><span class="icon">🤖</span> Native Android (Kotlin)</div>
+                <div class="proj-back-stat"><span class="icon">🧱</span> Jetpack Compose</div>
+                <div class="proj-back-stat"><span class="icon">📦</span> Room Database</div>
+                <div class="proj-back-stat"><span class="icon">📊</span> MPAndroidChart</div>
+                <div class="proj-back-stat"><span class="icon">📐</span> Clean MVVM</div>
+              </div>
+            </div>
+            <div class="proj-tags">
+              <span class="proj-tag">Kotlin</span>
+              <span class="proj-tag">Jetpack</span>
+              <span class="proj-tag">Room</span>
+              <span class="proj-tag">Charts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="proj-card" style="transition-delay:0.1s" onclick="openModal('ca-solutions')">
+        <div class="proj-card-inner">
+          <div class="proj-front">
+            <div class="proj-icon" style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(59,130,246,0.05));border:1px solid rgba(59,130,246,0.2)">💼</div>
+            <div class="proj-cat">iOS · Swift · Professional Tool</div>
+            <div class="proj-title">CA-Solutions</div>
+            <div class="proj-desc">Utility app for Chartered Accountants features client management, deadline tracker, and financial calculators.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">SwiftUI</span>
+              <span class="proj-tag">Core Data</span>
+              <span class="proj-tag">Native Design</span>
+            </div>
+            <div class="proj-flip-hint">↻ Hover for tech · Click for logic</div>
+          </div>
+          <div class="proj-back">
+            <div>
+              <div class="proj-back-title">💼 Tech Stack</div>
+              <div class="proj-back-stats">
+                <div class="proj-back-stat"><span class="icon">🍎</span> Swift & SwiftUI</div>
+                <div class="proj-back-stat"><span class="icon">🗄️</span> Core Data Storage</div>
+                <div class="proj-back-stat"><span class="icon">📅</span> Deadline Tracking</div>
+                <div class="proj-back-stat"><span class="icon">🧮</span> Financial Calculators</div>
+                <div class="proj-back-stat"><span class="icon">🏗️</span> MVVM Pattern</div>
+              </div>
+            </div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">SwiftUI</span>
+              <span class="proj-tag">CoreData</span>
+              <span class="proj-tag">Tools</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="proj-card" style="transition-delay:0.2s" onclick="openModal('budget-tracker')">
+        <div class="proj-card-inner">
+          <div class="proj-front">
+            <div class="proj-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.2)">📉</div>
+            <div class="proj-cat">iOS · Swift · Finance</div>
+            <div class="proj-title">Budget Tracker (iOS)</div>
+            <div class="proj-desc">Native Swift budget app for logging income and expenses with category tagging. Clear dashboard shows balance at a glance.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">SwiftUI</span>
+              <span class="proj-tag">Charts</span>
+              <span class="proj-tag">Core Data</span>
+            </div>
+            <div class="proj-flip-hint">↻ Hover for tech · Click for logic</div>
+          </div>
+          <div class="proj-back">
+            <div>
+              <div class="proj-back-title">📉 Tech Stack</div>
+              <div class="proj-back-stats">
+                <div class="proj-back-stat"><span class="icon">🍎</span> Native Swift & SwiftUI</div>
+                <div class="proj-back-stat"><span class="icon">📊</span> SwiftUI Charts</div>
+                <div class="proj-back-stat"><span class="icon">🗂️</span> Category Tagging</div>
+                <div class="proj-back-stat"><span class="icon">💸</span> Balance Dashboard</div>
+                <div class="proj-back-stat"><span class="icon">💾</span> Core Data Persistence</div>
+              </div>
+            </div>
+            <div class="proj-tags">
+              <span class="proj-tag">Swift</span>
+              <span class="proj-tag">SwiftUI</span>
+              <span class="proj-tag">Charts</span>
+              <span class="proj-tag">Finance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-tag reveal">Skills</p>
+    <h2 class="section-title reveal">Tech <span class="gradient-text">Arsenal</span></h2>
+    <p class="section-sub reveal">Proficiencies honed across production apps, enterprise platforms, and AI integrations.</p>
+
+    <div class="skills-categories">
+      <!-- Mobile -->
+      <div class="skill-cat-card reveal">
+        <div class="skill-cat-title"><span class="skill-cat-icon">📱</span> Mobile Development</div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Swift / SwiftUI</span><span class="skill-pct">95%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="95"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">UIKit</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Flutter / Dart</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Kotlin (Android)</span><span class="skill-pct">65%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="65"></div></div>
+        </div>
+      </div>
+
+      <!-- Web -->
+      <div class="skill-cat-card reveal" style="transition-delay:0.1s">
+        <div class="skill-cat-title"><span class="skill-cat-icon">🌐</span> Web Development</div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">React.js</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Django / Python</span><span class="skill-pct">82%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">PostgreSQL</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">REST APIs / GraphQL</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
+        </div>
+      </div>
+
+      <!-- AI -->
+      <div class="skill-cat-card reveal" style="transition-delay:0.2s">
+        <div class="skill-cat-title"><span class="skill-cat-icon">🤖</span> AI / LLM</div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">OpenAI API</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">ChatGPT Integration</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">ZBrain AI</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Prompt Engineering</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="skill-cat-card reveal" style="transition-delay:0.3s">
+        <div class="skill-cat-title"><span class="skill-cat-icon">🛠</span> DevOps / Tools</div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Git / GitHub</span><span class="skill-pct">92%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="92"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Firebase</span><span class="skill-pct">83%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="83"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Xcode / Instruments</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Docker / CI/CD</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="70"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating icon pills -->
+    <div class="skill-icons-row reveal">
+      <div class="skill-icon-pill"><span class="si">🍎</span>Swift</div>
+      <div class="skill-icon-pill"><span class="si">🎨</span>SwiftUI</div>
+      <div class="skill-icon-pill"><span class="si">⚛️</span>React</div>
+      <div class="skill-icon-pill"><span class="si">🐍</span>Django</div>
+      <div class="skill-icon-pill"><span class="si">🐦</span>Flutter</div>
+      <div class="skill-icon-pill"><span class="si">🤖</span>OpenAI</div>
+      <div class="skill-icon-pill"><span class="si">🐘</span>PostgreSQL</div>
+      <div class="skill-icon-pill"><span class="si">🔥</span>Firebase</div>
+      <div class="skill-icon-pill"><span class="si">☁️</span>Docker</div>
+      <div class="skill-icon-pill"><span class="si">📱</span>UIKit</div>
+      <div class="skill-icon-pill"><span class="si">🟨</span>JavaScript</div>
+      <div class="skill-icon-pill"><span class="si">🐙</span>GitHub</div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" style="position:relative;overflow:hidden">
+  <div id="particles-contact"></div>
+  <div class="section-inner" style="position:relative;z-index:1;padding-top:120px;padding-bottom:120px">
+    <p class="section-tag reveal">Contact</p>
+    <h2 class="section-title reveal">Let's Build <span class="gradient-text">Something</span></h2>
+    <p class="section-sub reveal">Open to full-time roles, freelance projects, and exciting collaborations. Drop me a message!</p>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <a href="mailto:vikasbishnoi82289@gmail.com" class="contact-link-card reveal">
+          <div class="contact-link-icon" style="background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,212,255,0.05));border:1px solid rgba(0,212,255,0.2)">📧</div>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-val">vikasbishnoi82289@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://github.com/vikas0071" target="_blank" rel="noopener" class="contact-link-card reveal" style="transition-delay:0.1s">
+          <div class="contact-link-icon" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));border:1px solid rgba(124,58,237,0.2)">🐙</div>
+          <div>
+            <div class="contact-link-label">GitHub</div>
+            <div class="contact-link-val">github.com/vikas0071</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/vikas-bishnoi-9ba11b179/" target="_blank" rel="noopener" class="contact-link-card reveal" style="transition-delay:0.2s">
+          <div class="contact-link-icon" style="background:linear-gradient(135deg,rgba(0,119,181,0.15),rgba(0,119,181,0.05));border:1px solid rgba(0,119,181,0.2)">💼</div>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-val">linkedin.com/in/vikas-bishnoi-9ba11b179/</div>
+          </div>
+        </a>
+        <div class="contact-link-card reveal" style="transition-delay:0.3s">
+          <div class="contact-link-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.2)">📍</div>
+          <div>
+            <div class="contact-link-label">Location</div>
+            <div class="contact-link-val">Hisar, India · Open to Remote</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <form id="contact-form" onsubmit="handleFormSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Name</label>
+              <input class="form-input" type="text" id="contact-name" placeholder="Your Name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email</label>
+              <input class="form-input" type="email" id="contact-email" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-subject">Subject</label>
+            <input class="form-input" type="text" id="contact-subject" placeholder="What's this about?" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-message">Message</label>
+            <textarea class="form-textarea" id="contact-message" placeholder="Tell me about your project..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="submit-btn">Send Message ✉</button>
+          <div class="form-success" id="form-success">✅ Message sent! I'll get back to you within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">Vikas Bishnoi</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Vikas Bishnoi · Built with 💙 | iOS Developer & Software Engineer · Hisar, India</div>
+</footer>
+
+<!-- ─── JS ─── -->
+<script>
+/* ── Preloader ── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hide');
+    initAll();
+  }, 2200);
+});
+
+function initAll() {
+  initCursor();
+  initNav();
+  initTyped();
+  initParticles();
+  initCodeParticles();
+  initGlobe();
+  initScrollReveal();
+  initStatsCounter();
+  initSkillBars();
+  initTimeline();
+  initContactParticles();
+}
+
+/* ── Custom Cursor ── */
+function initCursor() {
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0, my=0, rx=0, ry=0;
+
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  const lerp = (a, b, n) => (1-n)*a + n*b;
+
+  function animCursor() {
+    dot.style.left   = mx + 'px';
+    dot.style.top    = my + 'px';
+    rx = lerp(rx, mx, 0.14);
+    ry = lerp(ry, my, 0.14);
+    ring.style.left  = rx + 'px';
+    ring.style.top   = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  document.querySelectorAll('a, button, .proj-card, .timeline-card, .skill-icon-pill, .stat-card').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+  });
+}
+
+/* ── Nav scroll ── */
+function initNav() {
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+}
+
+/* ── Hamburger ── */
+document.getElementById('hamburger').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+function closeMobile() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+/* ── Typed.js ── */
+function initTyped() {
+  new Typed('#typed-role', {
+    strings: [
+      'iOS Developer',
+      'Full Stack Engineer',
+      'AI Builder',
+      'SwiftUI Craftsman',
+      'Open-Source Enthusiast'
+    ],
+    typeSpeed: 55,
+    backSpeed: 35,
+    backDelay: 1800,
+    loop: true,
+    cursorChar: '|'
+  });
+}
+
+/* ── Particles.js (hero) ── */
+function initParticles() {
+  particlesJS('particles-js', {
+    particles: {
+      number: { value: 55 },
+      color: { value: ['#00d4ff','#7c3aed','#ec4899'] },
+      shape: { type: 'circle' },
+      opacity: { value: 0.35, random: true, anim: { enable: true, speed: 0.8, opacity_min: 0.1, sync: false } },
+      size: { value: 2, random: true },
+      line_linked: { enable: true, distance: 130, color: '#00d4ff', opacity: 0.12, width: 1 },
+      move: { enable: true, speed: 0.6, direction: 'none', random: true, straight: false, out_mode: 'out' }
+    },
+    interactivity: {
+      detect_on: 'canvas',
+      events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } },
+      modes: { grab: { distance: 180, line_linked: { opacity: 0.3 } }, push: { particles_nb: 3 } }
+    },
+    retina_detect: true
+  });
+}
+
+/* ── Contact Particles ── */
+function initContactParticles() {
+  particlesJS('particles-contact', {
+    particles: {
+      number: { value: 30 },
+      color: { value: '#7c3aed' },
+      shape: { type: 'circle' },
+      opacity: { value: 0.15, random: true },
+      size: { value: 2, random: true },
+      line_linked: { enable: true, distance: 120, color: '#7c3aed', opacity: 0.08, width: 1 },
+      move: { enable: true, speed: 0.4, random: true }
+    },
+    interactivity: { detect_on: 'canvas', events: { onhover: { enable: false } } },
+    retina_detect: true
+  });
+}
+
+/* ── Floating Swift code snippets ── */
+function initCodeParticles() {
+  const container = document.getElementById('code-particles');
+  const snippets = [
+    'struct ContentView: View {','@StateObject var vm','SwiftUI.View','guard let data else { return }',
+    '.animation(.spring())','.environmentObject(store)','Task { await fetch() }','@MainActor','func viewDidLoad()',
+    'URLSession.shared.data(from:)','let model = GPT4()','import SwiftUI','@Published var items',
+    'django.db.models','React.useState()', 'async/await', 'MVVM', 'DispatchQueue.main.async',
+    'postgresql://','OpenAI().chat()','Firebase.configure()', '.onAppear { }', 'XCTest.run()'
+  ];
+  function spawn() {
+    const el = document.createElement('div');
+    el.className = 'code-particle';
+    el.textContent = snippets[Math.floor(Math.random() * snippets.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (18 + Math.random() * 22) + 's';
+    el.style.animationDelay    = (Math.random() * 12) + 's';
+    el.style.fontSize = (0.55 + Math.random() * 0.25) + 'rem';
+    el.style.color = Math.random() > 0.5 ? 'rgba(0,212,255,0.2)' : 'rgba(124,58,237,0.2)';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 40000);
+  }
+  for (let i = 0; i < 14; i++) setTimeout(spawn, i * 400);
+  setInterval(spawn, 3000);
+}
+
+/* ── 3D Globe (Three.js) ── */
+function initGlobe() {
+  const canvas = document.getElementById('globe-canvas');
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(W, H);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, W/H, 0.1, 100);
+  camera.position.z = 3.4;
+
+  // Globe sphere (wireframe)
+  const geo  = new THREE.SphereGeometry(1, 28, 20);
+  const mat  = new THREE.MeshBasicMaterial({ color: 0x00d4ff, wireframe: true, opacity: 0.08, transparent: true });
+  const globe = new THREE.Mesh(geo, mat);
+  scene.add(globe);
+
+  // Skill dots on sphere surface
+  const skills = ['Swift','SwiftUI','React','Django','Python','Flutter','Kotlin','PostgreSQL','OpenAI','Firebase','UIKit','Git'];
+  const dotGeo = new THREE.SphereGeometry(0.045, 8, 8);
+  const colors = [0x00d4ff, 0x7c3aed, 0xec4899, 0x10b981];
+
+  skills.forEach((_, i) => {
+    const phi   = Math.acos(-1 + (2 * i) / skills.length);
+    const theta = Math.sqrt(skills.length * Math.PI) * phi;
+    const dotMat = new THREE.MeshBasicMaterial({ color: colors[i % colors.length] });
+    const dot = new THREE.Mesh(dotGeo, dotMat);
+    dot.position.setFromSphericalCoords(1, phi, theta);
+    scene.add(dot);
+
+    // label sprite canvas
+    const lc = document.createElement('canvas');
+    lc.width = 180; lc.height = 48;
+    const ctx = lc.getContext('2d');
+    ctx.clearRect(0,0,180,48);
+    ctx.fillStyle = 'rgba(0,212,255,0.7)';
+    ctx.font = 'bold 22px Inter';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(skills[i], 90, 24);
+    const tex = new THREE.CanvasTexture(lc);
+    const spMat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.85 });
+    const sprite = new THREE.Sprite(spMat);
+    sprite.position.copy(dot.position).multiplyScalar(1.28);
+    sprite.scale.set(0.55, 0.15, 1);
+    scene.add(sprite);
+  });
+
+  // Orbit ring
+  const ringGeo = new THREE.TorusGeometry(1.1, 0.003, 8, 100);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x7c3aed, opacity: 0.25, transparent: true });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 4;
+  scene.add(ring);
+
+  // Mouse interaction
+  let targetRotX = 0, targetRotY = 0;
+  let curRotX = 0, curRotY = 0;
+  canvas.parentElement.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    targetRotX = ((e.clientY - rect.top)  / rect.height - 0.5) * 1.2;
+    targetRotY = ((e.clientX - rect.left) / rect.width  - 0.5) * 1.2;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    curRotX += (targetRotX - curRotX) * 0.06;
+    curRotY += (targetRotY - curRotY) * 0.06;
+    globe.rotation.y += 0.004 + curRotY * 0.01;
+    globe.rotation.x  = curRotX * 0.3;
+    scene.children.forEach(c => {
+      if (c !== globe) {
+        c.rotation.y = globe.rotation.y;
+        c.rotation.x = globe.rotation.x;
+      }
+    });
+    ring.rotation.y += 0.003;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  });
+}
+
+/* ── Scroll Reveal (Intersection Observer) ── */
+function initScrollReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
+}
+
+/* ── Stats Counter Animation ── */
+function initStatsCounter() {
+  const counters = document.querySelectorAll('.stat-num[data-target]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const isDecimal = target % 1 !== 0;
+      const startTime = performance.now();
+      const duration = 1600;
+      function tick(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 4);
+        const val = target * ease;
+        el.textContent = (isDecimal ? val.toFixed(1) : Math.round(val)) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = (isDecimal ? target.toFixed(1) : target) + suffix;
+      }
+      requestAnimationFrame(tick);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => obs.observe(el));
+}
+
+/* ── Skill Bars ── */
+function initSkillBars() {
+  const bars = document.querySelectorAll('.skill-bar-fill');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.dataset.pct + '%';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  bars.forEach(b => obs.observe(b));
+}
+
+/* ── Timeline expand ── */
+function toggleTimeline(card) {
+  const ach = card.querySelector('.timeline-achievements');
+  card.classList.toggle('open');
+  ach.classList.toggle('open');
+}
+function initTimeline() {
+  // Auto-open first item
+  const first = document.querySelector('.timeline-card');
+  if (first) setTimeout(() => toggleTimeline(first), 400);
+}
+
+/* ── Contact form ── */
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('form-success').style.display = 'block';
+    btn.textContent = 'Sent ✓';
+    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    document.getElementById('contact-form').reset();
+  }, 1200);
+}
+
+/* ── GSAP scroll polish ── */
+gsap.registerPlugin(ScrollTrigger);
+
+// Section titles pop in
+gsap.utils.toArray('.section-title').forEach(el => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+    y: 30, opacity: 0, duration: 0.9, ease: 'power3.out'
+  });
+});
+
+// Project cards scale
+gsap.utils.toArray('.proj-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: 'top 90%', once: true },
+    y: 60, opacity: 0, duration: 0.8, delay: i * 0.12, ease: 'power3.out'
+  });
+});
+
+// Skill pills float stagger
+gsap.from('.skill-icon-pill', {
+  scrollTrigger: { trigger: '.skill-icons-row', start: 'top 90%', once: true },
+  y: 30, opacity: 0, duration: 0.5, stagger: 0.06, ease: 'back.out(1.4)'
+});
+
+// Hero content animate in
+gsap.timeline({ delay: 2.4 })
+  .from('.hero-badge',   { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' })
+  .from('.hero-name',    { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
+  .from('.hero-role',    { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+  .from('.hero-desc',    { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+  .from('.hero-btns',    { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+  .from('.iphone-scene', { x: 80, opacity: 0, duration: 1.0, ease: 'power3.out' }, '-=0.6');
+
+/* ── Project Modal Logic ── */
+const projectsData = {
+  'cruise-finder': {
+    title: 'Cruise Finder by iCruise',
+    badge: 'iOS · Travel · AI',
+    desc: 'Feature-rich iOS travel platform for cruise discovery and booking. Optimized SwiftUI components with smooth navigation flows. Built using MVVM architecture and modularized components for scalability.',
+    metrics: [
+      { icon: '📈', label: '25% User Engagement increase' },
+      { icon: '🛡️', label: '99.8% Crash-free rate' },
+      { icon: '⏱️', label: '20+ Hours/week saved via automation' }
+    ],
+    tech: ['Swift', 'SwiftUI', 'UIKit', 'ZBrain AI', 'Firebase', 'MVVM', 'Fastlane', 'XCTest']
+  },
+  'ai-xplr': {
+    title: 'AI XPLR™',
+    badge: 'Full Stack · Enterprise · AI',
+    desc: 'Enterprise AI discovery platform deployed in global transformation programs. Built end-to-end with a React frontend and a Django backend. Features complex AI agent pipelines for data transformation and analysis.',
+    metrics: [
+      { icon: '🌍', label: 'Global enterprise deployment' },
+      { icon: '🤖', label: 'AI agent automation at scale' },
+      { icon: '⚡', label: 'Real-time agent communication' }
+    ],
+    tech: ['React.js', 'Django', 'Python', 'PostgreSQL', 'OpenAI API', 'ZBrain AI', 'Docker', 'Redis']
+  },
+  'math-quiz': {
+    title: 'Math Quiz Game for Kids',
+    badge: 'iOS · EdTech · AI',
+    desc: 'AI-powered educational iOS app making math fun through gamification. Integrates ChatGPT 3.5 for adaptive difficulty that adjusts based on child performance.',
+    metrics: [
+      { icon: '⬇️', label: '1,000+ Downloads in Month 1' },
+      { icon: '⭐', label: '4.7★ App Store Rating' },
+      { icon: '📊', label: '20% User retention boost' },
+      { icon: '📉', label: '18% Crash rate reduction' }
+    ],
+    tech: ['Swift', 'UIKit', 'ChatGPT 3.5 API', 'XCTest', 'Core Data', 'StoreKit', 'MVC']
+  },
+  'smart-expense': {
+    title: 'Smart Expense Tracker',
+    badge: 'Android · Kotlin · Finance',
+    desc: 'Native Android application focused on financial literacy. Features quick expense logging, recent transactions feed, and a powerful analytics dashboard using MPAndroidChart.',
+    metrics: [
+      { icon: '📊', label: 'Category-wise spending analysis' },
+      { icon: '💰', label: 'Budget limit alerts' },
+      { icon: '🎯', label: 'User spending visual goal tracking' }
+    ],
+    tech: ['Kotlin', 'Android SDK', 'Jetpack Compose', 'Room DB', 'MPAndroidChart', 'MVVM', 'Dagger Hilt']
+  },
+  'ca-solutions': {
+    title: 'CA-Solutions',
+    badge: 'iOS · Swift · Professional Tool',
+    desc: 'Professional utility app designed for Chartered Accountants and financial advisors. Features secure client management, deadline/date tracking for tax filings, and heavy financial calculation modules.',
+    metrics: [
+      { icon: '💼', label: 'Professional client management' },
+      { icon: '📅', label: 'Tax deadline & date tracker' },
+      { icon: '🧮', label: 'Complex financial calculators' }
+    ],
+    tech: ['Swift', 'SwiftUI', 'Core Data', 'Foundation API', 'MVVM Architecture', 'Push Notifications']
+  },
+  'budget-tracker': {
+    title: 'Budget Tracker UI',
+    badge: 'iOS · Swift · Finance',
+    desc: 'Minimalist native budget app for logging income and expenses. Uses modern SwiftUI Charts for balance visualization. Focused on speed, clean design, and offline-first persistence.',
+    metrics: [
+      { icon: '📉', label: 'Monthly balance-at-a-glance' },
+      { icon: '🏷️', label: 'Flexible category tagging' },
+      { icon: '🚀', label: 'Instant-sync local persistence' }
+    ],
+    tech: ['Swift', 'SwiftUI', 'Core Data', 'SwiftUI Charts', 'Combine', 'MVVM']
+  }
+};
+
+function openModal(id) {
+  const data = projectsData[id];
+  if (!data) return;
+
+  const overlay = document.getElementById('proj-modal-overlay');
+  const body = document.getElementById('modal-body');
+
+  body.innerHTML = `
+    <div class="modal-hero">
+      <div class="modal-badge">${data.badge}</div>
+      <h2 class="modal-title">${data.title}</h2>
+    </div>
+    <div class="modal-content">
+      <div class="modal-left">
+        <h3 class="modal-section-title">Project Overview</h3>
+        <p class="modal-desc">${data.desc}</p>
+        <h3 class="modal-section-title">Tech Stack</h3>
+        <div class="modal-tech-list">
+          ${data.tech.map(t => `<span class="modal-tech-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="modal-right">
+        <h3 class="modal-section-title">Key Metrics</h3>
+        <div class="modal-metrics">
+          ${data.metrics.map(m => `
+            <div class="modal-metric-card">
+              <span class="modal-metric-icon">${m.icon}</span>
+              <span class="modal-metric-val">${m.label}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const overlay = document.getElementById('proj-modal-overlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* Close modal on ESC */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ── Light trail on mouse move ── */
+document.addEventListener('mousemove', (e) => {
+  const spark = document.createElement('div');
+  spark.style.cssText = `
+    position:fixed;left:${e.clientX}px;top:${e.clientY}px;
+    width:4px;height:4px;border-radius:50%;
+    background:rgba(0,212,255,0.4);
+    pointer-events:none;z-index:9997;
+    transform:translate(-50%,-50%);
+    transition:opacity 0.6s,transform 0.6s;
+  `;
+  document.body.appendChild(spark);
+  requestAnimationFrame(() => {
+    spark.style.opacity = '0';
+    spark.style.transform = 'translate(-50%,-50%) scale(3)';
+  });
+  setTimeout(() => spark.remove(), 600);
+});
+
+</script>
+<!-- ─── PROJECT MODAL ─── -->
+<div id="proj-modal-overlay" onclick="if(event.target === this) closeModal()">
+  <div class="modal-container" id="modal-container">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-body">
+      <!-- Content injected by JS -->
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
